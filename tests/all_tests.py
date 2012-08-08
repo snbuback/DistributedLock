@@ -13,7 +13,6 @@ from distributed_lock import syncronized_block, syncronized
 distributed_lock.DEFAULT_MEMCACHED_CLIENT = memcache.Client(['127.0.0.1:11211'])
 
 class MockLock(object):
-    
     def __init__(self):
         self.acquired_called = 0
         self.release_called = 0
@@ -24,7 +23,8 @@ class MockLock(object):
         
     def release(self):
         self.release_called += 1
-        
+
+
 def pytest_funcarg__lock(request):
     return MockLock()
 
@@ -56,8 +56,8 @@ def hello_world():
     time.sleep(1)
     print 'Fim execução'
 
-class TestDecoratorUsage(object):
 
+class TestDecoratorUsage(object):
     def test_decorator_usage(self):
         hello_world()
 
