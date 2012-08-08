@@ -8,7 +8,7 @@ lib_dir = os.path.abspath(os.path.join(__file__, '../..'))
 sys.path.append(lib_dir)
 
 import distributed_lock
-from distributed_lock import syncronized_block, syncronized
+from distributed_lock import syncronize
 
 distributed_lock.DEFAULT_MEMCACHED_CLIENT = memcache.Client(['127.0.0.1:11211'])
 
@@ -32,14 +32,14 @@ def pytest_funcarg__lock(request):
 class TestSyncronizedBlock(object):
     
     def test_block_usage(self, lock):
-        with syncronized_block('ola', lock=lock):
+        with syncronize('ola', lock=lock):
             pass
         assert lock.acquired_called == 1
         assert lock.release_called == 1
 
     def test_after_raise_exception_release_is_called(self, lock):
         try:
-            with syncronized_block('ola2', lock=lock):
+            with syncronize('ola2', lock=lock):
                 raise RuntimeError("asasa")
                 
             raise "Não deveria ter chegado aqui"
@@ -50,8 +50,8 @@ class TestSyncronizedBlock(object):
             assert lock.release_called == 1
 
 
-@syncronized()
-def hello_world():
+@syncronize()
+def hello_world(id, name):
     print 'Executando'
     time.sleep(1)
     print 'Fim execução'
@@ -59,5 +59,5 @@ def hello_world():
 
 class TestDecoratorUsage(object):
     def test_decorator_usage(self):
-        hello_world()
+        hello_world(5, 'rsrs')
 
