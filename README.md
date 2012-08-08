@@ -8,15 +8,21 @@ How to configure
 
 In your setup file (in django, settings.py), configure locking:
 
+```python
+
     import distributed_lock
     distributed_lock.DEFAULT_MEMCACHED_CLIENT = memcache.Client(['127.0.0.1:11211'])
     distributed_lock.DEFAULT_TIMEOUT=60
     distributed_lock.DEFAULT_BLOCKING=False
+```
 
 If you setting up memcached in Django, you can use it abstraction of memcached.
 
+```python
+
     from django.core.cache import cache
     distributed_lock.DEFAULT_MEMCACHED_CLIENT = cache
+```
 
 You can configure this settings in each lock, as parameter.
 
@@ -26,26 +32,33 @@ How to use
 
 Using minimal configuration, as decorator:
 
-    ```python
+```python
+
     from distributed_lock import syncronized
     @syncronized()
     def hello_world():
         print 'running'
+```
 
 Or as `with` block:
+
+```python
 
     from distributed_lock import syncronized_block
     ... my code before
     with syncronized_block('hello'):
         print 'running'
     ... my code after
+```
 
 You can use with conventional threading.Lock (only in process locking)
 
+```python
     from distributed_lock import syncronized_block
     import threading
     with syncronized_block('hello', lock=threading.Lock())
         print 'running'
+```
 
 Arguments
 ------------------------
