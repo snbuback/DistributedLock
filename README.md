@@ -41,16 +41,16 @@ Or as `with` block:
 
 ```python
 from distributedlock import distributedlock
-... my code before
+
+#... my code before
 with distributedlock('hello'):
     print 'running'
-... my code after
+#... my code after
 ```
 
 You can use with conventional threading.Lock (only in process locking)
 
 ```python
-from distributedlock import distributedlock
 import threading
 with distributedlock('hello', lock=threading.Lock())
     print 'running'
@@ -67,6 +67,16 @@ def distributedlock(key, lock=None, blocking=None)
   key name will be class name + method name if not specified.
   * lock: If you desire use another lock strategy, like `threading.Lock()` or `threading.RLock()`. defaults to `distributedlock.memcachedlock.MemcachedLock`
   * blocking: If another process has lock, wait until have a lock or abort immediately, raising `LockNotAcquiredError`. Defaults to `distributedlock.DEFAULT_BLOCKING`
-  
 
+Tips
+------------------------
+
+  * If you have a dynamic key, use lock with block to compose your key. For example:
+  
+```python
+def synchronized_method(arg1)
+    with distributedlock('sync_process_%d' % arg1.id):
+        # do something
+```
+  
 
