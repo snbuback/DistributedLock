@@ -26,6 +26,7 @@ How to use
 
 Using minimal configuration, as decorator:
 
+    ```python
     from distributed_lock import syncronized
     @syncronized()
     def hello_world():
@@ -43,22 +44,19 @@ You can use with conventional threading.Lock (only in process locking)
 
     from distributed_lock import syncronized_block
     import threading
-    with syncronized_lock('hello', lock=threading.Lock())
+    with syncronized_block('hello', lock=threading.Lock())
         print 'running'
 
 Arguments
 ------------------------
 
-    def syncronized_block(key, lock=None, blocking=None):
+    def syncronized_block(key, lock=None, blocking=None)
+    def syncronized(lock=None, blocking=None)
 
-WIP
-
-  * key: name of key in memcached. Avoid long names, because memcached supports only 255 characters in key. Mandatory.
+  * key: name of key in memcached. Avoid long names, because memcached supports only 255 characters in key. Mandatory. Using decorator
+  key name will be class name + method name.
   * lock: If you desire use another lock strategy, like `threading.Lock()` or `threading.RLock()`. defaults to `distributed_lock.memcachedlock.MemcachedLock`
   * blocking: If another process has lock, wait until have lock or abort immediately.
-
-
-    def syncronized_block(key, lock=None, blocking=None):
-    def syncronized(lock=None, blocking=None)
+  
 
 
