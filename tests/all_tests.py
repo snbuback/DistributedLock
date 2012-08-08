@@ -7,10 +7,10 @@ import memcache
 lib_dir = os.path.abspath(os.path.join(__file__, '../..'))
 sys.path.append(lib_dir)
 
-import distributed_lock
-from distributed_lock import syncronize
+import distributedlock
+from distributedlock import syncronize
 
-distributed_lock.DEFAULT_MEMCACHED_CLIENT = memcache.Client(['127.0.0.1:11211'])
+distributedlock.DEFAULT_MEMCACHED_CLIENT = memcache.Client(['127.0.0.1:11211'])
 
 class MockLock(object):
     def __init__(self):

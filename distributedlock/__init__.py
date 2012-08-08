@@ -1,5 +1,5 @@
 # encoding: utf-8
-from distributed_lock.memcachedlock import MemcachedLock
+from distributedlock.memcachedlock import MemcachedLock
 
 DEBUG = True
 DEFAULT_TIMEOUT=60
