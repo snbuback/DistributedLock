@@ -1,4 +1,4 @@
-python-distributed-lock
+Distributed Lock
 =======================
 
 Python distributed lock (currently only with memcached)
