@@ -5,6 +5,7 @@ DEBUG = True
 DEFAULT_TIMEOUT=60
 DEFAULT_BLOCKING=False
 DEFAULT_MEMCACHED_CLIENT=None
+DEFAULT_LOCK_FACTORY=lambda key: MemcachedLock(key, DEFAULT_MEMCACHED_CLIENT, DEFAULT_TIMEOUT)
 
 def _debug(msg):
     if DEBUG:
@@ -13,7 +14,7 @@ def _debug(msg):
 class LockNotAcquiredError(Exception):
     pass
 
-class syncronize(object):
+class distributedlock(object):
     
     def __init__(self, key=None, lock=None, blocking=None):
         self.key = key
@@ -21,7 +22,7 @@ class syncronize(object):
         self.blocking = blocking or DEFAULT_BLOCKING
         
         if not self.lock:
-            self.lock = MemcachedLock(self.key, DEFAULT_MEMCACHED_CLIENT, DEFAULT_TIMEOUT)
+            self.lock = DEFAULT_LOCK_FACTORY(self.key)
         
     # for use with decorator
     def __call__(self, f):

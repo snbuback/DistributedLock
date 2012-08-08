@@ -31,8 +31,8 @@ How to use
 Using minimal configuration, as decorator:
 
 ```python
-from distributedlock import syncronize
-@syncronize()
+from distributedlock import distributedlock
+@distributedlock()
 def hello_world():
     print 'running'
 ```
@@ -40,9 +40,9 @@ def hello_world():
 Or as `with` block:
 
 ```python
-from distributedlock import syncronize
+from distributedlock import distributedlock
 ... my code before
-with syncronize('hello'):
+with distributedlock('hello'):
     print 'running'
 ... my code after
 ```
@@ -50,9 +50,9 @@ with syncronize('hello'):
 You can use with conventional threading.Lock (only in process locking)
 
 ```python
-from distributedlock import syncronize
+from distributedlock import distributedlock
 import threading
-with syncronize('hello', lock=threading.Lock())
+with distributedlock('hello', lock=threading.Lock())
     print 'running'
 ```
 
@@ -60,7 +60,7 @@ Arguments
 ------------------------
 
 ```python
-def syncronize(key, lock=None, blocking=None)
+def distributedlock(key, lock=None, blocking=None)
 ```
 
   * key: name of key in memcached. Avoid long names, because memcached supports only 255 characters in key. Using decorator
