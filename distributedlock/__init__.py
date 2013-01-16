@@ -13,15 +13,20 @@ def _debug(msg):
     if DEBUG:
         print "LOCK:", msg
 
+
 class LockNotAcquiredError(Exception):
     pass
+
 
 class distributedlock(object):
     
     def __init__(self, key=None, lock=None, blocking=None):
         self.key = key
         self.lock = lock
-        self.blocking = blocking or DEFAULT_BLOCKING
+        if blocking == None:
+            self.blocking = DEFAULT_BLOCKING
+        else:
+            self.blocking = blocking
         
         if not self.lock:
             self.lock = DEFAULT_LOCK_FACTORY(self.key)

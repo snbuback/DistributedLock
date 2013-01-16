@@ -1,6 +1,6 @@
 
 
 test:
-	py.test -s tests/*.py
+	py.test -s -v tests/*.py
 
 
