@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='DistributedLock',
-    version='1.0',
+    version='1.1',
     author='Silvano Buback',
     author_email='snbuback@gmail.com',
     packages=find_packages(),
