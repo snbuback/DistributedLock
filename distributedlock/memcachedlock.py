@@ -1,7 +1,11 @@
 # encoding: utf-8
 import time
 import uuid
-import threading
+import logging
+
+log = logging.getLogger(__name__)
+
+__all__ = [ 'MemcachedLock' ]
 
 class MemcachedLock(object):
     """
@@ -22,10 +26,17 @@ class MemcachedLock(object):
     def acquire(self, blocking=True):
         while True:
             added = self.client.add(self.key, self.instance_id, self.timeout)
+            log.warn("Added=%s" % repr(added))
             if added:
                 break
-            if not blocking and not added:
+                
+            if added == 0:
+                raise RuntimeError(u"Error calling memcached add! Is memcached up and configured?")
+            
+            if not blocking:   # and not added
                 return False
+
+            log.warn('Waiting locking for "%s"', self.key)
             time.sleep(1)
         return True
 
@@ -36,7 +47,7 @@ class MemcachedLock(object):
             # below can delete another lock! There is no way to solve this in memcached
             self.client.delete(self.key)
         else:
-            raise threading.ThreadError("I've no lock to release")
+            log.warn("I've no lock to release. Increase TIMEOUT of lock operations")
 
 
 

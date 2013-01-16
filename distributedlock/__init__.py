@@ -3,9 +3,11 @@ from distributedlock.memcachedlock import MemcachedLock
 
 DEBUG = True
 DEFAULT_TIMEOUT=60
-DEFAULT_BLOCKING=False
+DEFAULT_BLOCKING=True
 DEFAULT_MEMCACHED_CLIENT=None
 DEFAULT_LOCK_FACTORY=lambda key: MemcachedLock(key, DEFAULT_MEMCACHED_CLIENT, DEFAULT_TIMEOUT)
+
+__all__ = [ 'LockNotAcquiredError', 'distributedlock' ]
 
 def _debug(msg):
     if DEBUG:
@@ -48,5 +50,5 @@ class distributedlock(object):
         _debug("releasing lock %s" % self.key)
         self.lock.release()
         
-    
+
 
