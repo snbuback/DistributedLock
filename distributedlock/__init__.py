@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import with_statement
 from distributedlock.memcachedlock import MemcachedLock
 
 DEBUG = True
